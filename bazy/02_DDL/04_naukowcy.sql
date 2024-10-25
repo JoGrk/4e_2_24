@@ -21,38 +21,60 @@ create table Posredniczaca(
 ALTER TABLE Posredniczaca
 RENAME TO Przypisanie;
 
+
 -- 2. W tabeli Pracownicy zmień nazwę pola SSN na kod, pole powinno być autoinkrementowanym kluczem podstawowym.
-ALTER TABLE Pracownicy
-CHANGE SSN kod INT auto_increment PRIMARY KEY;
- 
+
+ ALTER TABLE Pracownicy
+ CHANGE SSN kod int AUTO_INCREMENT PRIMARY KEY;
 
 -- 3. Do tabeli Projekty dodaj na początku tabeli pole kod. Pole powinno być kluczem podstawowym, jest tekstem o stałej długości czterech znaków.
 ALTER TABLE Projekty
-ADD kod char(4) PRIMARY KEY first;
+ADD KOD CHAR(4) PRIMARY KEY FIRST ;
+
+
+
 -- 4. Zmień typ pola Projekt w tabeli Przypisanie na teksty o stałej długości czterech znaków.
-ALTER TABLE Projekty
+ALTER TABLE Przypisanie
+MODIFY Projekt Char(4);
 
 -- 5. Do tabeli Przypisanie dodaj klucz podstawowy (na obu polach).
-
+ALTER TABLE Przypisanie
+ADD PRIMARY KEY(Projekt, SSN);
 -- 6. W tabeli Projekty ustaw wartość domyślną dla pola Miejsce na 'Bydgoszcz'. (sprawdź składnię np. na w3schools
-
+ALTER TABLE Projekty
+ALTER COLUMN Miejsce SET DEFAULT 'Bydgoszcz';
 -- 7. Do tabeli Projekty za polem Nazwa dodaj pole czas typu całkowitego.
+ALTER TABLE Projekty
+ADD Czas int after nazwa;
 
 -- 8. W tabeli Projekty usuń pole Miejsce
+ALTER TABLE Projekty
+DROP Miejsce;
+DESC Projekty;
 
 -- 9. W tabeli Pracownicy zmień pole Nazwisko - powinno być tekstem o zmiennej długości do 50 znaków
 
+ALTER TABLE Pracownicy
+MODIFY Nazwisko varchar(50);
+
 -- 10. W tabeli Projekty ustaw wartość domyślną na polu Czas na 100.
+ALTER TABLE Projekty
+ALTER COLUMN czas SET DEFAULT '100';
 
 -- 11. Zmień nazwę tabeli Pracownicy na Naukowcy.
-
+ALTER TABLE Pracownicy
+RENAME to  Naukowcy;
 -- 12. W tabeli Przypisanie przesuń pole Projekt za pole SSN.
-
+ALTER TABLE Przypisanie
+MODIFY Projekt char(4) after SSN;
 -- 14. W tabeli Przypisanie zmień nazwę pola SSN na Naukowiec
-
+ALTER TABLE Przypisanie
+CHANGE SSN Naukowiec INT;
 -- 15. Z tabeli Naukowcy usuń pole Data_urodzenia
-
+ALTER TABLE Naukowcy
+DROP COLUMN data_urodzenia;
 -- 16. Zaimportuj dane
+
 
 INSERT INTO Naukowcy(Kod,Nazwisko) 
   VALUES(123234877,'Michael Rogers'),
