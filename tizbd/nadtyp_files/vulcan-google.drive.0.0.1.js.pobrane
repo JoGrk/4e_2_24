@@ -1,0 +1,140 @@
+(function() {
+            window.Vulcan = window.Vulcan || {};
+            Vulcan.GoogleDrive = function() {
+                // The Browser API key obtained from the Google API Console.
+                // Replace with your own Browser API key, or your own key.
+                var developerKey = '';
+
+                // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+                var clientId = '';
+
+                // Scope to use to access user's photos.
+                var scope = '';
+
+                var canUploadFiles = false;
+                var pickerApiLoaded = false;
+                var oauthToken = '';
+                var iframeAriaLabel = '';
+                
+                var success = function() {};
+                var cancel = function() {};
+                var error = function() {};
+
+                var ERRORS = {
+                    RIGHTS_SCOPE_ERROR: 0,
+                    COOKIES_ERROR: 1,
+                    BAD_URL: 2
+                }
+                 
+                // Use the API Loader script to load google.picker and gapi.auth.
+                function open(options) { 
+                    clientId = options.clientId;
+                    developerKey = options.developerKey;
+                    scope = options.scope;
+                    canUploadFiles = options.canUploadFiles || canUploadFiles;
+                    success = options.success || success;
+                    cancel = options.cancel || cancel;
+                    error = options.error || error;
+                    iframeAriaLabel = options.iframeAriaLabel || iframeAriaLabel;
+                    gapi.load('auth2', function () { onAuthApiLoad(); });
+                    gapi.load('picker', onPickerApiLoad);
+                }
+
+                function onAuthApiLoad() {  
+                    gapi.auth2.init({ client_id: clientId })
+                        .then(function (googleAuth) {
+                            googleAuth.signIn({ scope: scope })
+                                .then(function (result) {
+                                    var authResponse = result.getAuthResponse();
+                                    if (authResponse && authResponse.scope && authResponse.scope.indexOf(scope) !== -1) {
+                                        handleAuthResult(authResponse);
+                                    } else {
+                                        error(ERRORS.RIGHTS_SCOPE_ERROR);
+                                    }
+                                })
+                        })
+                        .catch(function (reason) {
+                            if (reason && reason.details) {
+                                if (reason.details.toLowerCase().indexOf("cookies") !== -1) {
+                                    error(ERRORS.COOKIES_ERROR);
+                                } else if (reason.details.toLowerCase().indexOf("registered") !== -1) {
+                                    error(ERRORS.BAD_URL);
+                                }
+                            }
+                            console.error(reason);
+                        }); 
+                }
+
+                function onPickerApiLoad() {
+                    pickerApiLoaded = true;
+                    createPicker();
+                }
+
+                function handleAuthResult(authResult) { 
+                    if (authResult && !authResult.error) {
+                        oauthToken = authResult.access_token;
+                        createPicker(oauthToken);
+                    }
+                }
+
+                function createPickerWithUpload(oauthToken) {
+                    var uploadView = new google.picker.DocsUploadView().setIncludeFolders(false);
+                    var picker = new google.picker.PickerBuilder()
+                        .addView(google.picker.ViewId.DOCS)
+                        .addView(uploadView)
+                        .setLocale('pl')
+                        .setOAuthToken(oauthToken)
+                        .setDeveloperKey(developerKey)
+                        .setCallback(pickerCallback)
+                        .build();
+                    picker.setVisible(true);
+                }
+
+                function createPickerWithoutUpload(oauthToken) {
+                    var picker = new google.picker.PickerBuilder()
+                        .addView(google.picker.ViewId.DOCS)
+                        .setLocale('pl')
+                        .setOAuthToken(oauthToken)
+                        .setDeveloperKey(developerKey)
+                        .setCallback(pickerCallback)
+                        .build();
+                    picker.setVisible(true);
+                }
+
+                // Create and render a Picker object for picking from Google Photos.
+                function createPicker(oauthToken) {
+                    if (pickerApiLoaded && oauthToken) {
+                        if (canUploadFiles) {
+                            createPickerWithUpload(oauthToken);
+                        } else {
+                            createPickerWithoutUpload(oauthToken);
+                        }
+
+						//I put this code to make the container in front.  mhojwa
+                        var elements = document.getElementsByClassName('picker-dialog');
+						for (var i=0;i<elements.length;i++) {
+                            elements[i].style.zIndex = "2000000";
+                        }
+                        var iframeElems = document.getElementsByClassName('picker-frame picker-dialog-frame');
+                        for (var i = 0; i < iframeElems.length; i++) {
+                            iframeElems[i].ariaLabel = iframeAriaLabel;
+                        }
+                    }
+                }
+
+                // A simple callback implementation.
+                function pickerCallback(data) {
+                    if (data[google.picker.Response.ACTION] == google.picker.Action.PICKED) {
+                        var docs = data[google.picker.Response.DOCUMENTS]; 
+                        success(docs);
+                    }
+                    if (data[google.picker.Response.ACTION] == google.picker.Action.CANCEL) {
+                        cancel();
+                    } 
+                }
+
+                return {
+                    open: open
+                }
+            }(); 
+        })();
