@@ -22,22 +22,37 @@ WHERE cena/waga < 10 AND cena/waga > 5;
 SELECT*
 FROM towar
 WHERE ILOSC*WAGA > cena AND ILOSC*WAGA < 3*cena;
--- tylko ZAMÓWIONE towary, których waga =1;
+-- 7. tylko ZAMÓWIONE towary, których waga =1;
+SELECT *
+FROM towar 
+WHERE zamow = 'PRAWDA' AND waga = 1;
+-- 8. nazwy towarów, których RODZAJ = NA i GD (również małymi literami);
+SELECT nazwa,rodzaj
+FROM towar
+WHERE Rodzaj IN ('NA','GD');
 
--- nazwy towarów, których RODZAJ = NA i GD (również małymi literami);
+-- 9. wyświetl nazwy towarów, które nie zawierają litery a w NAZWIE;
+SELECT nazwa
+FROM towar
+WHERE nazwa NOT LIKE '%a%';
+-- 10.Wyprodukowane w 1997 roku;
+SELECT nazwa
+FROM towar
+WHERE DATA_PROD LIKE '1997-%';
+-- 11. (DATA_PROD - od początku 1995 roku do końca 1998,) CENA jest dwucyfrowa, WAGA < 0.5;
+SELECT nazwa
+FROM towar
+WHERE DATA_PROD BETWEEN '1995-01-01' AND '1998-12-31'
+    AND cena BETWEEN 10 AND 99 
+        AND waga <0.5;
+-- 12. jak wyżej + wyświetl tylko NAZWĘ, RODZAJ I CENĘ;
+SELECT nazwa
+FROM towar 
+WHERE 
+-- 13. rekordy w których CENA jest pomiędzy 12,50 a 35 i WAGA jest pomiędzy 0,5 a 2,5;
 
--- wyświetl nazwy towarów, które nie zawierają litery a w NAZWIE;
+-- 14. jak wyżej + - wyświetl tylko NAZWĘ, RODZAJ i wartość (ILOSC * CENA) ;
 
--- Wyprodukowane w 1997 roku;
+-- 15. jak wyżej + posortowane malejąco wg NAZWY ; 
 
--- (DATA_PROD - od początku 1995 roku do końca 1998,) CENA jest dwucyfrowa, WAGA < 0.5;
-
--- jw. wyświetl tylko NAZWĘ, RODZAJ I CENĘ;
-
--- rekordy w których CENA jest pomiędzy 12,50 a 35 i WAGA jest pomiędzy 0,5 a 2,5;
-
--- jw. - wyświetl tylko NAZWĘ, RODZAJ i wartość (ILOSC * CENA) ;
-
--- jw. posortowane malejąco wg NAZWY ; 
-
--- różne RODZAJE towarów (bez powtórek) ; (wskazówka: SELECT DISTINCT...)
+-- 16 różne RODZAJE towarów (bez powtórek) ; (wskazówka: SELECT DISTINCT...)
