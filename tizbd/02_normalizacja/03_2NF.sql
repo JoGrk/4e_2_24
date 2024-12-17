@@ -35,41 +35,15 @@ VALUES
 -- 4. Wykonaj zapytania
 
 -- A. Wypisz pracowników, którzy znają język PHP
-SELECT imie,nazwisko
-FROM Pracownicy2
-WHERE jezyk = 'PHP';
+
 -- B. Wypisz pracowników, którzy znają język Java
-SELECT imie,nazwisko,jezyk
-FROM Pracownicy2
-WHERE jezyk = 'JAVA';
 
--- C. Wypisz pracowników mieszkających w Nakle nad Notecią
-SELECT imie,nazwisko,miejscowosc
-FROM Pracownicy2
-WHERE miejscowosc = 'Naklo nad Notecia';
--- D. Wypisz pracowników mieszkających w Nowej Wsi
-SELECT DISTINCT imie,nazwisko,miejscowosc
-FROM Pracownicy2
-WHERE miejscowosc = 'Nowa Wies';
--- E. Wypisz wszystkie nazwy miejscowości pracowników
-SELECT DISTINCT miejscowosc
-FROM Pracownicy2;
+-- C. Wypisz pracowników mieszkających w Nowej Wsi
 
--- C. Wypisz imiona i nazwiska pracowników posortowane według nazwisk (ORDER BY)
-SELECT DISTINCT imie, nazwisko
-FROM Pracownicy2
-ORDER BY nazwisko ASC;
--- 5. Jeśli masz problemy z wykonaniem zapytań, popraw strukturę tabeli i wpisz na nowo dane - tak, aby tych problemów już nie mieć
+-- D. Wypisz wszystkie nazwy miejscowości pracowników
 
--- 6. Ale
--- A. Jan Malinowski nauczył się C#
-INSERT INTO Pracownicy2
-(imie, nazwisko, jezyk)
-VALUES 
-('Jan','Malinowski','C#');
-SELECT DISTINCT imie, nazwisko, miejscowosc
-FROM Pracownicy2
-WHERE imie = 'Jan' and nazwisko = 'Malinowski';
--- B. Jan Kowalski jednak nie umie PHP
-DELETE FROM Pracownicy2
-WHERE imie ='Jan'AND nazwisko = 'Kowalsk' AND jezyk ='PHP';
+-- E. Wypisz imiona i nazwiska pracowników posortowane według nazwisk (ORDER BY)
+
+-- F. Jan Malinowski nauczył się C#
+
+-- G. Jan Kowalski jednak nie umie PHP
