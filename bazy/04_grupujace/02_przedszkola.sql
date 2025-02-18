@@ -43,12 +43,26 @@ GROUP BY Id_przedszkola
 HAVING COUNT(*) >30;
  
 -- 12. Pogrupuj dane według wieku dzieci i wyświetl ile jest dzieci w poszczególnym wieku starających się o przyjęcie do przedszkola (wyświetl wiek dzieci oraz liczbę dzieci)
+SELECT Wiek, COUNT(*)
+FROM dzieci
+GROUP BY Wiek;
 
  
 -- 13. Zmodyfikuj powyższe zapytanie tak, aby wyświetliło tylko dane dotyczące chłopców.
+SELECT Wiek, COUNT(*)
+FROM dzieci
+WHERE plec = 'chlopiec'
+GROUP BY Wiek;
 
  
 -- 14. Jaki jest średni wiek chłopców, a jaki średni wiek dziewczynek? (w jednym zapytaniu)
+SELECT plec, AVG(wiek)
+FROM dzieci
+GROUP BY plec;
 
  
 -- 15. Ile małych dzieci stara się do poszczególnych przedszkoli (do zapytania wybierz tylko trzylatków i czterolatków)
+SELECT Id_przedszkola, COUNT(*)
+FROM dzieci
+WHERE Wiek IN (3,4)
+GROUP BY Id_przedszkola;
