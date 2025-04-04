@@ -1,0 +1,37 @@
+body {
+    font-style: Arial;
+
+}
+header{
+    display: flex;
+}
+.one{
+    background-color: #483D8B;
+    height: 150px;
+    width: 30%;
+}
+.two{
+    background-color:#483D8B ;
+    color: white;
+    height: 150px;
+    width: 70%;
+}
+main{
+    display: flex;
+    flex-wrap: wrap;
+}
+.task{
+    background-color: #AFEEEE;
+    height: 100px;
+    width: 150px;
+    margin: 3px;
+    border: 1px solid;
+}
+footer {
+    background-color: #483D8B;
+    color: white;
+    padding: 10px;
+}
+h5{
+    text-align: center;
+}
