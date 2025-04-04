@@ -13,7 +13,7 @@ SELECT DISTINCT miesiac
 FROM zadania
 WHERE miesiac LIKE 'l%';
 
--- ‒ Zapytanie 4: zmieniające pole wpis w tabeli zadania dla zadania z datą 2020-07-13, nowy wpis to „Wycieczka: jezioro”
+-- ‒ Zapytanie 4:dodaje nowy wpis o tabeli zdania dla daty 2020-07-13, nowy wpis to „Wycieczka: jezioro”
 
-SELECT wpis
-FROM zadania
+INSERT INTO zadania(dataZadania, wpis, miesiac, rok)
+VALUES ('2020-07-13','Wycieczka: jezioro', 'lipiec', '2020');
