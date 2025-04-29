@@ -45,9 +45,30 @@ $products=$result -> fetch_all(1);
 
     </form>
 
-    <?php
-    foreach()
-    ?>
+    <table>
+        <tr>
+            <th>Nazwa produktu</th>
+            <th>Kategoria</th>
+            <th>Cena</th>
+        </tr>
+
+        <!-- <tr>
+            <td>Cukierki</td>
+            <td>Słodycze</td>
+            <td>15</td>
+        </tr> -->
+        <?php
+        foreach($products as $product){
+            echo "
+            <tr>
+                <td>{$product['productname']}</td>
+                <td>{$product['categoryname']}</td>
+                <td>{$product['price']}</td>
+            </tr>
+            ";
+        }
+        ?>
+    </table>
 
 </body>
 </html>
