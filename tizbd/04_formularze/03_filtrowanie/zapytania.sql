@@ -25,3 +25,10 @@ WHERE supplierID = 1;
 
 SELECT shipperid,shippername
 FROM shippers;
+
+SELECT orderID, OrderDate 
+from Orders;
+
+SELECT orderID, OrderDate 
+from Orders
+where shipperid = 1;
