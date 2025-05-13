@@ -1,6 +1,20 @@
 <?php
 $link=new mysqli("localhost","root","","w3schools");
 
+$suppid = $_POST['suppid'] ?? null;
+if($suppid){
+    $sql = "SELECT productname, price 
+FROM products
+WHERE supplierID = $suppid;";
+}
+else{
+    $sql = "
+SELECT productname, price
+FROM products;";
+}
+$result=$link->query($sql);
+$products=$result->fetch_all(1);
+
 $sql="
     select supplierid, suppliername
     from suppliers;";
@@ -28,7 +42,18 @@ $suppliers=$result->fetch_all(1);
                 }
             ?>
         </select>
+        <button>Wyślij</button>
     </form>
+    <ol>
+        <!-- <li>nazwa produktu - cena</li> -->
+         <?php
+            foreach($products as $product ){
+                echo "
+                <li>{$product['productname']} - {$product['price']}</li>
+                ";
+            }
+         ?>
+    </ol>
 </body>
 </html>
 
