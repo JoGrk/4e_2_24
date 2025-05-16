@@ -34,9 +34,38 @@ SELECT customerName, ContactName, City,country
 FROM customers
 WHERE Country = 'Italy';
 
--- 7. Usuń klientów i dostawców z Włoch z tabel Customers i Suppliers (dwoma zapytaniami)
+-- 7. Usuń klientów i dostawców z Włoch z tabel Customers i Suppliers (dwoma zapytaniam
+UPDATE orders 
+SET customerid = NULL
+WHERE customerid IN (SELECT customerid FROM customers WHERE country = 'Italy');
+DELETE FROM customers
+WHERE country='Italy'; 
+
+DELETE FROM products
+WHERE supplierid IN (SELECT supplierid FROM suppliers WHERE country = 'Italy');
+
+UPDATE order_details
+SET productid = NULL 
+WHERE productid IN (SELECT productid
+                    FROM products
+                    INNER JOIN suppliers ON products.supplierid = suppliers.supplierid WHERE country = 'Italy');
+
+
+
+
+DELETE FROM suppliers
+WHERE country = 'Italy';
 
 -- 8. Do tabeli Archiwum_Kontrahentów dodaj kontrahentów z Niemiec i Francji
+INSERT INTO Archiwum_Kontrahentow
+SELECT SupplierName,ContactName,City,Country
+FROM suppliers
+WHERE country IN('Germany','France')
+UNION 
+SELECT CustomerName,ContactName,City,Country
+FROM Customers 
+WHERE country IN('Germany','France');
+ 
 
  
 
