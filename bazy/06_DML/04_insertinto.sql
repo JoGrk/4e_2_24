@@ -72,11 +72,19 @@ WHERE country IN('Germany','France');
 -- 9. Z tabeli Customers wybierz dane klientów z Niemiec i dodaj ich do tabeli Suppliers
 
 -- 10. Utwórz tabelę Archiwum zawierającą wszystkie dane z tabeli Orders dotyczące zamówień z 1996 roku
-
- 
-
+CREATE TABLE archiwum as
+SELECT * from Orders
+where year(OrderDate) = 1996;
 -- 11. Usuń z tabeli Orders wszystkie zamówienia z 1996 roku
+DELETE from order_details
+WHERE OrderID IN (SELECT OrderID FROM orders WHERE OrderDate LIKE '1996%' );
 
+DELETE from orders
+WHERE OrderDate LIKE '1996%';
 -- 12. Do tabeli Archiwum dodaj wszystkie dane dotyczące zamówień ze stycznia 1997 roku
+INSERT INTO Archiwum 
+SELECT * 
+FROM Orders
+WHERE OrderDate LIKE '1997-01%';
 
  
