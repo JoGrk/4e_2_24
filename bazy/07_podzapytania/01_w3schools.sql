@@ -39,14 +39,45 @@ FROM products;
 -- 8. wyświetl nazwę i cenę towarów, które zawsze są zamawiane w ilości co najmniej 15 sztuk (Quantity ) (i były co najmniej raz zamówione)
 
 -- 9. Wyświetl nazwiska i imiona klientów (Customer Name), którzy nie korzystali z firmy  Speedy Express
+SELECT CustomerID
+FROM Orders
+    INNER JOIN shippers ON orders.ShipperID=shippers.ShipperID
+WHERE ShipperName = "Speedy Express";
 
+SELECT CustomerName
+FROM Customers
+WHERE CustomerID NOT IN (SELECT CustomerID
+FROM Orders
+    INNER JOIN shippers ON orders.ShipperID=shippers.ShipperID
+WHERE ShipperName = "Speedy Express");
 -- 10. Wszystkie informacje o klientach, mających tę samą wartość w polu CustomerName (może wpisanych przez pomyłkę?)
+SELECT * FROM Customers
+WHERE CustomerName IN(SELECT CustomerName FROM Customers
+GROUP BY CustomerName
+HAVING COUNT(*) > 1);
 
+SELECT CustomerName FROM Customers
+GROUP BY CustomerName
+HAVING COUNT(*) > 1;
 -- update
 
 -- 11 Podnieś o 10% ceny produktów z kategorii  "Confections"
-
+UPDATE products
+SET price = price*1.1
+WHERE categoryID IN(SELECT categoryID
+        FROM categories 
+        WHERE categoryName = "Confections"
+        );
 -- 12  Dla zamówień klientów z UK zmień spedytora na "United Package"
-
+update orders
+set ShipperID = (select ShipperID from shippers where ShipperName = 'United Package')
+where CustomerID in (select CustomerID from Customers where Country = "UK");
 -- 13. Dodaj nowy produkt z kategorii Confections dostarczony przez Exotic Liquid 
 -- -- 
+INSERT INTO products (productname,supplierid,categoryid)
+VALUES ('kluski',(SELECT supplierid
+                    FROM suppliers
+                    WHERE suppliername ='Exotic Liquid'),
+                    (SELECT categoryid
+                    FROM categories
+                    WHERE categoryName = 'Confections')); 
