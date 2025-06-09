@@ -41,3 +41,14 @@ from products;
 UPDATE products
 SET price=100
 WHERE productid=1;
+
+----------------------------------------------------------------------
+--  Grupa opcji: dostawca, kategoria. Po wybraniu wyświetlony jest raport pokazujący nazwę produktu, nazwę dostawcy i cenę lub nazwę produktu, nazwę kategorii i cenę (w zależności od wybranej na formularzu opcji) w postaci listy tabeli 
+--a
+SELECT productName,categoryName,price 
+from products
+JOIN categories ON products.categoryID=categories.categoryID;
+--b
+SELECT productName,SupplierName,price
+FROM products
+JOIN Suppliers ON products.SupplierID=suppliers.supplierID;
