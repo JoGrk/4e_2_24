@@ -52,3 +52,23 @@ JOIN categories ON products.categoryID=categories.categoryID;
 SELECT productName,SupplierName,price
 FROM products
 JOIN Suppliers ON products.SupplierID=suppliers.supplierID;
+
+-------------------------  5   -----------------------------------
+-- lista rozwijana z nazwiskami pracowników (jako value id pracownika)
+-- pole typu data na datę zamówienia
+-- Lista rozwijana z nazwami klientów (jako value id klienta)
+-- przycisk
+
+-- po wpisaniu (lub wybraniu danych) dodane jest nowe zamówienie
+SELECT LastName, EmployeeID
+FROM employees;
+
+
+SELECT CustomerName, CustomerID
+FROM customers;
+
+INSERT INTO orders 
+(EmployeeID, orderDATE, CustomerID) 
+VALUES 
+(1, '2025-06-10', 34);
+
