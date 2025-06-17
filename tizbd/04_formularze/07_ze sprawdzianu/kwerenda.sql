@@ -72,3 +72,23 @@ INSERT INTO orders
 VALUES 
 (1, '2025-06-10', 34);
 
+--06 02 jeszcze raz
+-- Grupa opcji: minimalna, średnia, maksymalna. Po wybraniu Raport wyświetlający średnie , minimalne lub maksymalne ceny produktów dostarczanych przez poszczególnych dostawców w formie tabeli (nazwa dostawcy, minimalna, średnia lub maksymalna cena)
+
+SELECT  SupplierName,MIN(price)as lvlprice
+FROM suppliers
+JOIN products ON suppliers.supplierID=products.supplierID
+GROUP BY SupplierName;
+
+
+SELECT  SupplierName,AVG(price)as  lvlprice
+FROM suppliers
+JOIN products ON suppliers.supplierID=products.supplierID
+GROUP BY SupplierName;
+
+SELECT  SupplierName,MAX(price)as  lvlprice
+FROM suppliers
+JOIN products ON suppliers.supplierID=products.supplierID
+GROUP BY SupplierName;
+
+
