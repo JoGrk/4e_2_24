@@ -15,7 +15,7 @@ if($position_f){
 $sql="SELECT zespol1,zespol2,wynik,data_rozgrywki
     FROM rozgrywka
     WHERE zespol1 = 'EVG';";
-$result = $link -> query($sql);
+$result = $link -> query($sql);  
 $games = $result -> fetch_all(1);
 
 
